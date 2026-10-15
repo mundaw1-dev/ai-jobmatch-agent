@@ -1,0 +1,37 @@
+
+# Filename: docker-compose.yml
+# Full path: C:\Technative\ai-jobmatch-agent\docker-compose.yml
+
+services:
+  ollama:
+    image: ollama/ollama:latest
+    container_name: jobmatch-ollama
+    restart: unless-stopped
+    volumes:
+      - ollama_models:/root/.ollama
+    # Ollama is accessible to the app over the Docker network.
+    # Its API is not exposed directly to your Windows host.
+
+  jobmatch-agent:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: jobmatch-agent
+    restart: unless-stopped
+    depends_on:
+      - ollama
+    ports:
+      - "127.0.0.1:8501:8501"
+    environment:
+      DATABASE_PATH: /app/data/jobmatch.db
+      OLLAMA_BASE_URL: http://ollama:11434
+      OLLAMA_MODEL: ${OLLAMA_MODEL:-qwen3:8b}
+      OLLAMA_TIMEOUT_SECONDS: ${OLLAMA_TIMEOUT_SECONDS:-300}
+      ADZUNA_APP_ID: ${ADZUNA_APP_ID:-}
+      ADZUNA_APP_KEY: ${ADZUNA_APP_KEY:-}
+      ADZUNA_COUNTRY: ${ADZUNA_COUNTRY:-gb}
+    volumes:
+      - ./data:/app/data
+
+volumes:
+  ollama_models:

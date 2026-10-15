@@ -1,0 +1,41 @@
+graph TD
+    %% Styling
+    classDef ui fill:#262730,stroke:#00C0F2,stroke-width:2px,color:#FAFAFA;
+    classDef app fill:#262730,stroke:#FF4B4B,stroke-width:2px,color:#FAFAFA;
+    classDef db fill:#1A1C23,stroke:#A0A3BD,stroke-width:2px,color:#FAFAFA;
+    classDef external fill:#1A1C23,stroke:#00C0F2,stroke-width:2px,color:#FAFAFA;
+
+    subgraph Streamlit_UI ["Streamlit User Interface"]
+        Profile["ui/profile.py\nCandidate Profile & CV"]:::ui
+        Search["ui/search.py\nSearch Inputs & Retrieval"]:::ui
+        Results["ui/results.py\nMatching Results & Assessment"]:::ui
+        Settings["ui/settings.py\nConfig & Local Utilities"]:::ui
+        ShortlistUI["shortlist.py\nSaved Opportunities"]:::ui
+    end
+
+    subgraph App_Layer ["Application & Workflow Layer"]
+        Orchestration["graph/\nMatching Workflow Orchestration"]:::app
+        Services["services/\nCV Parsing, Assessments & Recommendations"]:::app
+        Validation["Validation & Guardrails\nOutput & Failure Handling"]:::app
+    end
+
+    subgraph Persistence ["Persistence Layer"]
+        SQLite[(SQLite Database\nProfiles, Jobs & Shortlist)]:::db
+    end
+
+    subgraph Integrations ["External Integrations"]
+        Adzuna["Job Search API\n(e.g., Adzuna)"]:::external
+        Ollama["Local LLM Service\n(Ollama)"]:::external
+    end
+
+    %% Flow Connections
+    Profile --> Services
+    Search --> Adzuna
+    Adzuna --> Results
+    Results --> Orchestration
+    Orchestration --> Services
+    Services --> Validation
+    Validation --> SQLite
+    ShortlistUI --> SQLite
+    Settings --> SQLite
+    Services -.-> Ollama

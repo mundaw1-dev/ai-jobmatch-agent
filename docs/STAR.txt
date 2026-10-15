@@ -1,0 +1,55 @@
+```text
+ai_jobmatch_agent_star_format.txt
+
+```
+
+Here is the breakdown of the AI JobMatch Agent project presented in the **STAR (Situation, Task, Action, Result)** format:
+
+### **Situation**
+
+* Job seekers face friction when repeating searches across different keywords and locations.
+
+
+* Comparing complex job descriptions and translating general CV experience into role-specific evidence manually is time-consuming.
+
+
+* Applicants often track applications and promising vacancies across fragmented systems without losing useful context.
+
+
+
+### **Task**
+
+* Build a local-first, AI-assisted job search and matching application using Python 3.10, Streamlit, SQLite, the Adzuna API, and Ollama (where configured).
+
+
+* Simplify the process of finding, evaluating, and tracking suitable career opportunities through a unified workflow.
+
+
+* Implement secure, single-user password authentication to protect local application access and sensitive personal candidate data.
+
+
+
+### **Action**
+
+* **Workflow & Architecture Design:** Developed a modular Streamlit user interface (`ui/profile.py`, `ui/search.py`, `ui/results.py`, `ui/settings.py`, and `shortlist.py`) backed by an application layer for matching orchestration and SQLite persistence.
+
+
+* **End-to-End Pipeline:** Created a 5-step workflow covering candidate profile setup/CV upload, job search parameter specification, listing reviews, matching assessments, and shortlisting.
+
+
+* **AI-Assisted Matching & Guardrails:** Integrated rule-based checks with LLM assessments to evaluate how job requirements align with candidate experience, while keeping the human user responsible for final decisions.
+
+
+* **Security & QA:** Added first-run password setup with strong hashing, an authentication gate for protected screens, and a structured testing strategy covering unit, integration, regression, and security checks.
+
+
+
+### **Result**
+
+* Reduced repetitive manual work and enabled users to compare job opportunities consistently against structured profile criteria.
+
+
+* Established a secure, local-first application foundation that preserves data privacy while leveraging external search APIs and local LLMs.
+
+
+* Prepared a complete implementation roadmap and demonstration structure for local execution on Windows 10.
